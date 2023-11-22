@@ -1,0 +1,62 @@
+import React, { useState, useEffect } from 'react';
+
+
+// ...
+
+function App() {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  useEffect(() => {
+    let timeoutId;
+
+    const handleMouseEnterTimeout = () => {
+      timeoutId = setTimeout(() => {
+        setIsHovered(false);
+      }, 3000);
+    };
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      handleMouseEnterTimeout();
+    };
+
+    const handleMouseLeave = () => {
+      // Não limpe o temporizador aqui
+    };
+
+    const handleMouseLeaveTimeout = () => {
+      clearTimeout(timeoutId);
+    };
+
+    return () => {
+      handleMouseLeaveTimeout();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="App">
+      <div
+        className={`my-div ${isHovered ? 'navbar' : ''}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        Passe o mouse aqui!
+      </div>
+    </div>
+  );
+}
+
+// ...
+
+
+export default App;
